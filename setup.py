@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-09-30 14:01:47
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-10-01 00:00:46
+# @Last Modified time: 2016-10-02 15:08:11
 
 
 from distutils.core import setup
@@ -15,9 +15,9 @@ setup(
     description = 'digPriceExtractor',
     author = 'Lingzhe Teng',
     author_email = 'zwein27@gmail.com',
-    url = 'https://github.com/ZwEin27/dig-price-extractor',
-    download_url = 'https://github.com/ZwEin27/dig-price-extractor',
+    url = 'https://github.com/usc-isi-i2/dig-price-extractor',
+    download_url = 'https://github.com/usc-isi-i2/dig-price-extractor',
     packages = find_packages(),
     keywords = ['price', 'extractor'],
-    install_requires=['digSparkUtil', 'digExtractor', 'inflection']
+    install_requires=['digExtractor', 'inflection']
     )

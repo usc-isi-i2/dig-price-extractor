@@ -2,12 +2,12 @@
 # @Author: ZwEin
 # @Date:   2016-07-01 13:17:56
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-07-05 23:42:42
+# @Last Modified time: 2016-10-02 15:11:07
 
 import re
 from unit import *
 
-class Normalizer():
+class ZENormalizer():
 
     re_digits = re.compile(r'\d+')
     re_price_unit = re.compile(r'(?:'+ r'|'.join(UNIT_PRICE_UNITS) + r'){1,2}')
@@ -27,28 +27,28 @@ class Normalizer():
         price_unit = ''
         time_unit = ''
 
-        if len(Normalizer.re_digits.findall(text)) == 2:
-            tunit = Normalizer.re_time_unit.search(text)
+        if len(ZENormalizer.re_digits.findall(text)) == 2:
+            tunit = ZENormalizer.re_time_unit.search(text)
             if tunit:
                 time_unit = tunit.group(0)
 
-                text = Normalizer.re_time_unit.sub('', text)
+                text = ZENormalizer.re_time_unit.sub('', text)
 
-            p = Normalizer.re_digits.search(text)
+            p = ZENormalizer.re_digits.search(text)
             if p:
                 price = p.group(0)
 
         else:
-            p = Normalizer.re_digits.search(text)
+            p = ZENormalizer.re_digits.search(text)
             if p:
                 price = p.group(0)
-                text = Normalizer.re_digits.sub('', text)
+                text = ZENormalizer.re_digits.sub('', text)
 
-            tunit = Normalizer.re_time_unit.search(text)
+            tunit = ZENormalizer.re_time_unit.search(text)
             if tunit:
                 time_unit = tunit.group(0)
                 
-        punit = Normalizer.re_price_unit.search(text)
+        punit = ZENormalizer.re_price_unit.search(text)
         if punit:
             price_unit = punit.group(0)
 
@@ -61,17 +61,3 @@ class Normalizer():
 
     def normalize_from_list(self, text_list):
         return [self.normalize(text) for text in text_list]
-
-
-
-if __name__ == '__main__':
-    # text = 'half hour 100'
-    # text = '45 min 400 rose'
-    # text = '80 hh'
-    text = '1 hr $350'
-    normalizer = Normalizer()
-    print normalizer.normalize(text)
-
-
-
-

@@ -2,12 +2,12 @@
 # @Author: ZwEin
 # @Date:   2016-07-01 13:17:34
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-07-05 23:13:15
+# @Last Modified time: 2016-10-02 15:11:18
 
 import re
 import inflection
 
-class Preprocessor():
+class ZEPreprocessor():
     def __init__(self):
         pass
 
@@ -52,18 +52,18 @@ class Preprocessor():
         raw = raw.replace("eighteen", "18")
         raw = raw.replace("nineteen", "19")
 
-        raw = Preprocessor.re_twenty_x.sub("2", raw)
-        raw = Preprocessor.re_thirty_x.sub("3", raw)
-        raw = Preprocessor.re_forty_x.sub("4", raw)
-        raw = Preprocessor.re_fifty_x.sub("5", raw)
-        raw = Preprocessor.re_sixty_x.sub("6", raw)
-        raw = Preprocessor.re_seventy_x.sub("7", raw)
-        raw = Preprocessor.re_eighty_x.sub("8", raw)
-        raw = Preprocessor.re_ninety_x.sub("9", raw)
+        raw = ZEPreprocessor.re_twenty_x.sub("2", raw)
+        raw = ZEPreprocessor.re_thirty_x.sub("3", raw)
+        raw = ZEPreprocessor.re_forty_x.sub("4", raw)
+        raw = ZEPreprocessor.re_fifty_x.sub("5", raw)
+        raw = ZEPreprocessor.re_sixty_x.sub("6", raw)
+        raw = ZEPreprocessor.re_seventy_x.sub("7", raw)
+        raw = ZEPreprocessor.re_eighty_x.sub("8", raw)
+        raw = ZEPreprocessor.re_ninety_x.sub("9", raw)
 
-        raw = Preprocessor.re_ten.sub("10", raw)
-        raw = Preprocessor.re_one.sub("1", raw)
-        raw = Preprocessor.re_zero.sub("0", raw)
+        raw = ZEPreprocessor.re_ten.sub("10", raw)
+        raw = ZEPreprocessor.re_one.sub("1", raw)
+        raw = ZEPreprocessor.re_zero.sub("0", raw)
 
         raw = raw.replace("twenty", "20")
         raw = raw.replace("thirty", "30")
@@ -138,18 +138,11 @@ class Preprocessor():
 
     def preprocess(self, text):
         text = text.encode('ascii', 'ignore').lower()
-        text = Preprocessor.replace_numeral_words(text)
-        text = Preprocessor.re_irrelation.sub(' ', text)
-        text = Preprocessor.re_single_space.sub('', text)
-        text = Preprocessor.re_phone_number.sub('', text)
+        text = ZEPreprocessor.replace_numeral_words(text)
+        text = ZEPreprocessor.re_irrelation.sub(' ', text)
+        text = ZEPreprocessor.re_single_space.sub('', text)
+        text = ZEPreprocessor.re_phone_number.sub('', text)
         text = text.split('\n')
         text = [' '.join([inflection.singularize(token) for token in _.split(' ')]) for _ in text]
         return text
-        # return text.split('\n') # future find all instead
 
-if __name__ == '__main__':
-    # text = 'ilk chocolate remycome get a taste4 20 friendly very discreet special ss80 rose hh120 rose hr160 rose available now call'
-    # text = '15min50?20mins60?hhr80?hr120?'
-    text = 'Good morning I\'m doing incalls only gentleman I\'m quick 60 roses ?Hhr 80 roses ?Hour 120 roses unrushed and f.service provided nonnegotiable donations  614-563-3342'
-    preprocessor = Preprocessor()
-    print preprocessor.preprocess(text)
