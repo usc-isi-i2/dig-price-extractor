@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-06-21 12:36:47
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-10-02 15:12:51
+# @Last Modified time: 2016-10-02 15:18:13
 
 import copy 
 import types
@@ -15,8 +15,9 @@ class PriceExtractor(Extractor):
         self.renamed_input_fields = ['text']  # ? renamed_input_fields
 
     def extract(self, doc):
-        digpe = DIGPriceExtractor()
-        return digpe.extract(doc['text'])
+        if 'text' in doc:
+            digpe = DIGPriceExtractor()
+            return digpe.extract(doc['text'])
         
     def get_metadata(self):
         return copy.copy(self.metadata)
