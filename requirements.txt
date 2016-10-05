@@ -1,2 +1,2 @@
-digExtractor>=0.1.8
+digExtractor>=0.2.0
 inflection==0.3.1
