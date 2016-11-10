@@ -17,7 +17,10 @@ class PriceExtractor(Extractor):
 
     def extract(self, doc):
         if 'text' in doc:
-            return self.digpe.extract(doc['text'])
+            price = self.digpe.extract(doc['text'])
+            if price['price'] or\
+               price['price_per_hour']:
+                return price
         return None
 
     def get_metadata(self):
