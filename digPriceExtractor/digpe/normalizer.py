@@ -7,17 +7,17 @@
 import re
 from unit import *
 
+
 class ZENormalizer():
 
     re_digits = re.compile(r'\d+')
-    re_price_unit = re.compile(r'(?:'+ r'|'.join(UNIT_PRICE_UNITS) + r'){1,2}')
-    reg_time_units = r'(?:'+ \
-                r'(?:\d{1,3}[ ]?(?:' + r'|'.join(UNIT_TIME_HOUR+UNIT_TIME_MINUTE) + r'))' + r'|' \
-                r'(?:' + r'|'.join(UNIT_TIME_UNITS) + r')' \
-                r')'
+    re_price_unit = re.compile(
+        r'(?:' + r'|'.join(UNIT_PRICE_UNITS) + r'){1,2}')
+    reg_time_units = r'(?:' + \
+        r'(?:\d{1,3}[ ]?(?:' + r'|'.join(UNIT_TIME_HOUR + UNIT_TIME_MINUTE) + r'))' + r'|' \
+        r'(?:' + r'|'.join(UNIT_TIME_UNITS) + r')' \
+        r')'
     re_time_unit = re.compile(reg_time_units)
-
-
 
     def __init__(self):
         pass
@@ -47,7 +47,7 @@ class ZENormalizer():
             tunit = ZENormalizer.re_time_unit.search(text)
             if tunit:
                 time_unit = tunit.group(0)
-                
+
         punit = ZENormalizer.re_price_unit.search(text)
         if punit:
             price_unit = punit.group(0)
@@ -57,7 +57,6 @@ class ZENormalizer():
         ht['price_unit'] = price_unit
         ht['time_unit'] = time_unit
         return ht
-
 
     def normalize_from_list(self, text_list):
         return [self.normalize(text) for text in text_list]
