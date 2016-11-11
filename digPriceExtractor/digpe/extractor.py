@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-07-01 13:17:49
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-11-11 15:01:44
+# @Last Modified time: 2016-11-11 15:59:32
 
 import re
 
@@ -94,23 +94,12 @@ class ZEExtractor():
             for i in range(len(scores)):
                 scores[i] += _[i]
 
-        # print '\n\n\n'
-        # print scores
-        # print 'count_length_array', count_length_array
-        # print 'count_token_array', count_token_array
-        # print 'count_dollar_array', count_dollar_array
-     
         return pool[scores.index(max(scores))]
 
     def extract(self, text):
         text_pt_ext = ZEExtractor.re_price_time.findall(text)
         text_tp_ext = ZEExtractor.re_time_price.findall(text)
         text_op_ext = ZEExtractor.re_only_price.findall(text)
-
-        # print text
-        # print text_pt_ext
-        # print text_tp_ext
-        # print text_op_ext
 
         if len(text_pt_ext) > len(text_tp_ext):
             target = text_pt_ext
@@ -119,8 +108,6 @@ class ZEExtractor():
         else:
             pool = [text_tp_ext, text_pt_ext, text_op_ext]
             target = self.load_most_potential_target(pool)
-            # print pool, target 
-        # print target
         extra = []
         target_digits = ZEExtractor.re_digits.findall(' '.join(target))
 
