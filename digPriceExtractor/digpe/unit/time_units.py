@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-07-04 11:51:22
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-07-05 23:08:11
+# @Last Modified time: 2016-11-11 15:58:09
 
 
 UNIT_TIME_UNITS = [
@@ -41,7 +41,20 @@ UNIT_TIME_UNITS = [
 ]
     # '30',
 
-
+UNIT_TIME_HALF_HOUR = [
+    'half hour',
+    'half hr',
+    'half',
+    'hlf hr',
+    'hlf hour',
+    'hf hr',
+    'h hour',
+    'h hr',
+    'h h',
+    'hhr',
+    'hh',
+    'hf'
+]
 
 UNIT_TIME_HOUR = [
     'full hour',
