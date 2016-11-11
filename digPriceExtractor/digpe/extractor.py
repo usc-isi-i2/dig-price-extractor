@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-07-01 13:17:49
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-10-02 15:10:53
+# @Last Modified time: 2016-11-11 15:01:44
 
 import re
 
@@ -45,8 +45,6 @@ class ZEExtractor():
     # r'(?:' + reg_separator + r'for' + reg_separator + r')?' + \
 
 
-    
-
     ## pattern for time #
     reg_time_price = r'(?:' + \
             reg_time_units + \
@@ -75,6 +73,10 @@ class ZEExtractor():
     def filter(self, text_list):
         ans = []
         for text in text_list:
+            if '$' in text:
+                ans.append(text)
+                continue
+
             if ZEExtractor.re_alphabet.findall(text):
                 digits = ZEExtractor.re_digits.findall(text)
                 if len(digits) == 1 and int(digits[0]) < 5:
@@ -82,21 +84,43 @@ class ZEExtractor():
                 ans.append(text)
         return ans
 
+    def load_most_potential_target(self, pool):
+        count_length_array = [sum([len(item) for item in _ if not item.strip().isdigit()]) for _ in pool]
+        count_token_array = [len([item for item in _ if not item.strip().isdigit()]) for _ in pool]
+        count_dollar_array = [len([item for item in _ if item if '$' in item]) for _ in pool]
+
+        scores = [0]*len(pool)
+        for _ in [count_length_array, count_token_array, count_dollar_array]:
+            for i in range(len(scores)):
+                scores[i] += _[i]
+
+        # print '\n\n\n'
+        # print scores
+        # print 'count_length_array', count_length_array
+        # print 'count_token_array', count_token_array
+        # print 'count_dollar_array', count_dollar_array
+     
+        return pool[scores.index(max(scores))]
 
     def extract(self, text):
         text_pt_ext = ZEExtractor.re_price_time.findall(text)
         text_tp_ext = ZEExtractor.re_time_price.findall(text)
         text_op_ext = ZEExtractor.re_only_price.findall(text)
-     
+
+        # print text
+        # print text_pt_ext
+        # print text_tp_ext
+        # print text_op_ext
+
         if len(text_pt_ext) > len(text_tp_ext):
             target = text_pt_ext
         elif len(text_pt_ext) < len(text_tp_ext):
             target = text_tp_ext
         else:
             pool = [text_tp_ext, text_pt_ext, text_op_ext]
-            pool_max_len = [sum([len(item) for item in _]) for _ in pool]
-            target = pool[pool_max_len.index(max(pool_max_len))]
-
+            target = self.load_most_potential_target(pool)
+            # print pool, target 
+        # print target
         extra = []
         target_digits = ZEExtractor.re_digits.findall(' '.join(target))
 
@@ -108,7 +132,6 @@ class ZEExtractor():
                     extra.append(op_ext)
                     break
         target += extra
-
         return self.filter(target)
 
     def extract_from_list(self, text_list):
