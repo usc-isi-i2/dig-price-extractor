@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-06-30 11:29:35
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-11-13 14:19:01
+# @Last Modified time: 2016-11-13 15:31:10
 
 from preprocessor import ZEPreprocessor
 from extractor import ZEExtractor
@@ -38,10 +38,12 @@ class DIGPriceExtractor():
         price_per_hour = []
         price_n_hour = []
         price_half_hour = []
+        price_missing_time_unit = []
 
         for normalized in normalized_text_list:
             if not normalized[PE_JSON_NAME_TIME_UNIT]:
-                price_per_hour.append(int(normalized[PE_JSON_NAME_PRICE]))
+                # continue
+                price_missing_time_unit.append(int(normalized[PE_JSON_NAME_PRICE]))
             else:
                 tunit = DIGPriceExtractor.re_alphabet.findall(normalized[PE_JSON_NAME_TIME_UNIT])
                 if tunit and tunit[0].strip() in UNIT_TIME_HOUR:
@@ -57,6 +59,8 @@ class DIGPriceExtractor():
 
         if price_per_hour:
             pph_list = price_per_hour
+        elif price_missing_time_unit:
+            pph_list = price_missing_time_unit
         else:
             pph_list = price_n_hour + price_half_hour
 

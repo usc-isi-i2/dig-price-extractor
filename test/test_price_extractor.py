@@ -20,7 +20,9 @@ class TestPriceExtractorMethods(unittest.TestCase):
             ['content']).set_output_field('extracted').set_extractor(extractor)
         updated_doc = extractor_processor.extract(doc)
 
-        self.assertEqual(updated_doc['extracted'][0]['result']['value'], {'price': [{'price': '60', 'price_unit': 'rose', 'time_unit': 'hhr'}, {'price': '80', 'price_unit': 'rose', 'time_unit': 'hour'}, {'price': '120', 'price_unit': 'rose', 'time_unit': ''}], 'price_per_hour': '100'})
+        print updated_doc['extracted'][0]['result']['value']
+
+        self.assertEqual(updated_doc['extracted'][0]['result']['value'], {'price': [{'price': '60', 'price_unit': 'rose', 'time_unit': 'hhr'}, {'price': '80', 'price_unit': 'rose', 'time_unit': 'hour'}, {'price': '120', 'price_unit': 'rose', 'time_unit': ''}], 'price_per_hour': '80'})
 
     def test_empty_price_extractor(self):
         doc = {'content': 'something unrelated', 'b': 'world'}
