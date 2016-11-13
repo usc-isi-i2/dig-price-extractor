@@ -7,34 +7,44 @@
 import re
 import inflection
 
+
 class ZEPreprocessor():
     def __init__(self):
         pass
 
     re_space = re.compile(r'\s')
     re_digits = re.compile(r'\d')
-    re_single_space = re.compile(r'(?:(?<=[ \t])[ \t]+|(?<=[\A\n])[ \t]+|[ \t]+(?=[\Z\n]))')
+    re_single_space = re.compile(
+        r'(?:(?<=[ \t])[ \t]+|(?<=[\A\n])[ \t]+|[ \t]+(?=[\Z\n]))')
 
-    
-    
     # punctuations
     # !"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~
     reg_punctuation = r'(?:[!"#%&\'()*+,-./:;<=>?@[\]^_`{|}~])'
 
     # mis spell
-    numbers = ['zero', 'one', 'two', 'three', 'four', 'five', 'siz', 'seven', 'eight', 'nine']
-    re_twenty_x = re.compile(r"(two|twenty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
-    re_thirty_x = re.compile(r"(three|thirty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
-    re_forty_x = re.compile(r"(four|forty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
-    re_fifty_x = re.compile(r"(five|fifty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
-    re_sixty_x = re.compile(r"(six|sixty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
-    re_seventy_x = re.compile(r"(seven|seventy[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
-    re_eighty_x = re.compile(r"(eight|eighty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
-    re_ninety_x = re.compile(r"(nine|ninety[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
+    numbers = ['zero', 'one', 'two', 'three', 'four',
+               'five', 'siz', 'seven', 'eight', 'nine']
+    re_twenty_x = re.compile(
+        r"(two|twenty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
+    re_thirty_x = re.compile(
+        r"(three|thirty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
+    re_forty_x = re.compile(
+        r"(four|forty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
+    re_fifty_x = re.compile(
+        r"(five|fifty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
+    re_sixty_x = re.compile(
+        r"(six|sixty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
+    re_seventy_x = re.compile(
+        r"(seven|seventy[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
+    re_eighty_x = re.compile(
+        r"(eight|eighty[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
+    re_ninety_x = re.compile(
+        r"(nine|ninety[\W_]+(?=(\d|" + r"|".join(numbers) + ")))")
 
     re_ten = re.compile(r"(?<=[ilo0-9\A\n ])ten")
     re_one = re.compile(r'(?:\bper\b|(?<=[0-9yneorxt\A\n ])one)')
-    re_zero = re.compile(r'(?:\bzero\b|(?<=[0-9])o+\b|\bo+(?=[0-9])|\boh\b|(?:(?<=[o\s])o(?=[o\s])))')
+    re_zero = re.compile(
+        r'(?:\bzero\b|(?<=[0-9])o+\b|\bo+(?=[0-9])|\boh\b|(?:(?<=[o\s])o(?=[o\s])))')
 
     @staticmethod
     def replace_numeral_words(raw):
@@ -75,15 +85,14 @@ class ZEPreprocessor():
         raw = raw.replace("ninety", "90")
         return raw
 
-
-
     irr_units = [
         r'lb',
         r'lbs',
         r'c',
     ]
-    reg_irr_units = r'(?:(?:\b\d{1,2}\'\d{1,2}\b)|(?:\d+(' + r'|'.join(irr_units) + r')\b))'      # 5'9/160lb/36C
-
+    # 5'9/160lb/36C
+    reg_irr_units = r'(?:(?:\b\d{1,2}\'\d{1,2}\b)|(?:\d+(' + \
+        r'|'.join(irr_units) + r')\b))'
 
     # remove irrelated
     irrelation_regex_list = [
@@ -95,8 +104,6 @@ class ZEPreprocessor():
         reg_punctuation
     ]
     re_irrelation = re.compile(r'|'.join(irrelation_regex_list))
-
-
 
     # phone numbers
     reg_phone_number = [
@@ -132,9 +139,6 @@ class ZEPreprocessor():
         r'(?:\d{1}[ ]\d{1}[ ]\d{1}[ ]\d{1}[ ]\d{1}[ ]\d{1}[ ]\d{1}[ ]\d{1}[ ]\d{1}[ ]\d{1})'
     ]
     re_phone_number = re.compile(r'|'.join(reg_phone_number))
-    
-    
-
 
     def preprocess(self, text):
         text = text.encode('ascii', 'ignore').lower()
@@ -143,6 +147,6 @@ class ZEPreprocessor():
         text = ZEPreprocessor.re_single_space.sub('', text)
         text = ZEPreprocessor.re_phone_number.sub('', text)
         text = text.split('\n')
-        text = [' '.join([inflection.singularize(token) for token in _.split(' ')]) for _ in text]
+        text = [' '.join([inflection.singularize(token)
+                          for token in _.split(' ')]) for _ in text]
         return text
-

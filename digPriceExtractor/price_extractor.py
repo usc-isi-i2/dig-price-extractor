@@ -4,22 +4,25 @@
 # @Last Modified by:   ZwEin
 # @Last Modified time: 2016-10-02 15:41:41
 
-import copy 
-import types
+import copy
 from digExtractor.extractor import Extractor
 from digPriceExtractor.digpe import DIGPriceExtractor
+
 
 class PriceExtractor(Extractor):
 
     def __init__(self):
-        self.renamed_input_fields = ['text']  # ? renamed_input_fields
+        self.renamed_input_fields = 'text'
+        self.digpe = DIGPriceExtractor()
 
     def extract(self, doc):
         if 'text' in doc:
-            digpe = DIGPriceExtractor()
-            return digpe.extract(doc['text'])
+            price = self.digpe.extract(doc['text'])
+            if price['price'] or\
+               price['price_per_hour']:
+                return price
         return None
-        
+
     def get_metadata(self):
         return copy.copy(self.metadata)
 
