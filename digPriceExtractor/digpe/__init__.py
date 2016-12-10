@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-06-30 11:29:35
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-11-13 15:31:10
+# @Last Modified time: 2016-12-10 00:10:26
 
 from preprocessor import ZEPreprocessor
 from extractor import ZEExtractor
@@ -41,6 +41,9 @@ class DIGPriceExtractor():
         price_missing_time_unit = []
 
         for normalized in normalized_text_list:
+            # if normalized[PE_JSON_NAME_PRICE_UNIT] == '' and int(normalized[PE_JSON_NAME_PRICE]) <= 12:
+            #     continue
+
             if not normalized[PE_JSON_NAME_TIME_UNIT]:
                 # continue
                 price_missing_time_unit.append(int(normalized[PE_JSON_NAME_PRICE]))

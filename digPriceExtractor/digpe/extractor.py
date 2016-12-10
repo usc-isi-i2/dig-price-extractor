@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-07-01 13:17:49
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-12-09 16:19:53
+# @Last Modified time: 2016-12-10 00:01:03
 
 import re
 
@@ -77,6 +77,7 @@ class ZEExtractor():
 
     def filter(self, text_list):
         ans = []
+
         for text in text_list:
             if '$' in text:
                 ans.append(text)
@@ -124,9 +125,6 @@ class ZEExtractor():
         return pool[scores.index(max(scores))]
 
     def extract(self, text):
-        print text
-
-
         text_pt_ext = ZEExtractor.re_price_time.findall(text)
         text_tp_ext = ZEExtractor.re_time_price.findall(text)
         text_op_ext = ZEExtractor.re_only_price.findall(text)        
