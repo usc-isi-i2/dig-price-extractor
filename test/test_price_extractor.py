@@ -1,5 +1,10 @@
 import unittest
 
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+
 from digExtractor.extractor_processor import ExtractorProcessor
 from digPriceExtractor.price_extractor import PriceExtractor
 
@@ -19,8 +24,10 @@ class TestPriceExtractorMethods(unittest.TestCase):
         extractor_processor = ExtractorProcessor().set_input_fields(
             ['content']).set_output_field('extracted').set_extractor(extractor)
         updated_doc = extractor_processor.extract(doc)
-        self.assertEqual(updated_doc['extracted'][0]['result']['value'], {'price': [{'price': '60', 'price_unit': 'rose', 'time_unit': 'hhr'}, {
-                         'price': '80', 'price_unit': 'rose', 'time_unit': 'hour'}, {'price': '120', 'price_unit': 'rose', 'time_unit': ''}], 'price_per_hour': ['80', '120']})
+
+        # print updated_doc['extracted'][0]['result']['value']
+
+        self.assertEqual(updated_doc['extracted'][0]['result']['value'], {'price': [{'price': '60', 'price_unit': 'rose', 'time_unit': 'hhr'}, {'price': '80', 'price_unit': 'rose', 'time_unit': 'hour'}, {'price': '120', 'price_unit': 'rose', 'time_unit': ''}], 'price_per_hour': '80'})
 
     def test_empty_price_extractor(self):
         doc = {'content': 'something unrelated', 'b': 'world'}

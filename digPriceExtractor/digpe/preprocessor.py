@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-07-01 13:17:34
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-10-02 15:11:18
+# @Last Modified time: 2016-12-10 00:09:32
 
 import re
 import inflection
@@ -147,6 +147,6 @@ class ZEPreprocessor():
         text = ZEPreprocessor.re_single_space.sub('', text)
         text = ZEPreprocessor.re_phone_number.sub('', text)
         text = text.split('\n')
-        text = [' '.join([inflection.singularize(token)
-                          for token in _.split(' ')]) for _ in text]
+
+        text = [' '.join([inflection.singularize(token) for token in _.split(' ') if token not in ['hours', 'minutes', 'seconds']]) for _ in text]
         return text
