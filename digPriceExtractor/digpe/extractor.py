@@ -2,7 +2,7 @@
 # @Author: ZwEin
 # @Date:   2016-07-01 13:17:49
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-12-10 00:01:03
+# @Last Modified time: 2016-12-10 00:20:57
 
 import re
 
@@ -27,7 +27,7 @@ class ZEExtractor():
         postfix
 
     reg_separator = r'[\t ]?'
-    reg_price_digit = r'\d{1,4}'
+    reg_price_digit = r'\b\d{1,3}\b'    # r'\d{1,4}' 
     reg_price_unit = r'(?:' + r'|'.join(UNIT_PRICE_UNITS) + r'){0,2}'  # \b
     reg_interval = r'\w{,30}'
 

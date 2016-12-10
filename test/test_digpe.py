@@ -24,7 +24,8 @@ class TestPriceExtractorMethods(unittest.TestCase):
         # text = "Good morning I\'m doing incalls only gentleman I\'m quick 60 roses ?Hhr 80 roses ?Hour 120 roses unrushed and f.service provided nonnegotiable donations  614-563-3342"
         # text = "hello world 120 hour."
         # text = "hello world rose 6 hour "
-        text = "hello world 213-379-0691 hour."
+        # text = "hello world 213-379-1991 ss."
+        text = "hello world June 9, 1991 ss."
         dp = DIGPriceExtractor()
         ans = dp.extract(text)
         print json.dumps(ans, indent=4)
