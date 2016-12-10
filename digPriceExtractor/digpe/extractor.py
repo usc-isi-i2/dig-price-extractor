@@ -2,22 +2,29 @@
 # @Author: ZwEin
 # @Date:   2016-07-01 13:17:49
 # @Last Modified by:   ZwEin
-# @Last Modified time: 2016-11-13 15:15:05
+# @Last Modified time: 2016-12-09 16:19:53
 
 import re
 
 from unit import *
-
 
 class ZEExtractor():
 
     re_digits = re.compile(r'\d+')
     re_alphabet = re.compile(r'[a-z]+')
 
-    reg_time_units = r'(?:' + \
-        r'(?:\d{1,3}[ ]?(?:' + r'|'.join(UNIT_TIME_HOUR + UNIT_TIME_MINUTE) + r'))' + r'|' \
-        r'(?:' + r'|'.join(UNIT_TIME_UNITS) + r')' \
-        r')'
+    prefix = r'(?:(?<=[\A\b\s])|^)'
+    postfix = r'(?:(?=[\Z\b\s])|$)'
+    # postfix = r'(?=[\Z\s])'
+
+    reg_time_units = \
+        prefix + \
+        r'(?:' + \
+        r'(?:\d{1,3}[ ]?(?:' + r'|'.join(UNIT_TIME_HOUR + UNIT_TIME_MINUTE) + r'))' + \
+        r'|' + \
+        r'(?:' + r'|'.join(UNIT_TIME_UNITS) + r')' + \
+        r')' + \
+        postfix
 
     reg_separator = r'[\t ]?'
     reg_price_digit = r'\d{1,4}'
@@ -37,7 +44,8 @@ class ZEExtractor():
         r'(?:' + reg_separator + r'for' + reg_separator + r')?' + \
         reg_separator + \
         reg_time_units + \
-        ')'
+        r')'
+
     re_price_time = re.compile(reg_price_time)
     # r'(?:=(?:[a-z]+[\t ]){,5}?|[\t ]?)' + \
     # r'(?:' + reg_separator + r'for' + reg_separator + r')?' + \
@@ -116,9 +124,12 @@ class ZEExtractor():
         return pool[scores.index(max(scores))]
 
     def extract(self, text):
+        print text
+
+
         text_pt_ext = ZEExtractor.re_price_time.findall(text)
         text_tp_ext = ZEExtractor.re_time_price.findall(text)
-        text_op_ext = ZEExtractor.re_only_price.findall(text)
+        text_op_ext = ZEExtractor.re_only_price.findall(text)        
 
         if len(text_pt_ext) > len(text_tp_ext):
             target = text_pt_ext
